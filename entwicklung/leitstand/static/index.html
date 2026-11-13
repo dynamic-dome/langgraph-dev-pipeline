@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leitstand · Lab 2</title>
+  <link rel="stylesheet" href="/static/stil.css">
+</head>
+<body>
+  <header>
+    <span class="punkt" id="verbindung" title="Verbindung zum Server"></span>
+    <h1>Leitstand</h1>
+    <span class="leise">Entwicklungs-Pipeline · Lab 2</span>
+    <span class="rechts" id="uhr"></span>
+  </header>
+  <main>
+    <section id="liste">
+      <button class="haupt" id="neu" style="width:100%">+ Neuer Lauf</button>
+      <div id="startform" hidden class="karte">
+        <h3>Neuer Lauf</h3>
+        <label for="s-repo">Repo</label><select id="s-repo"></select>
+        <label for="s-aufgabe">Aufgabe</label><select id="s-aufgabe"></select>
+        <label for="s-stufe">Stufe</label><select id="s-stufe"></select>
+        <label for="s-modell">Implementierer</label><select id="s-modell"></select>
+        <label for="s-pruefer">Prüfer der Umsetzung</label><select id="s-pruefer"></select>
+        <label for="s-budget">Rahmen (Agentenaufrufe)</label><input id="s-budget" type="number" min="1" max="1000">
+        <div class="knoepfe"><button class="haupt" id="starten">Starten</button><button id="startabbruch">Schließen</button></div>
+        <div id="startmeldung"></div>
+      </div>
+      <h2>Läufe</h2>
+      <div id="laeufe"></div>
+    </section>
+    <section id="diagramm">
+      <div class="legende">
+        <span style="--f: var(--planung)">Planung</span>
+        <span style="--f: var(--umsetzung)">Umsetzung</span>
+        <span style="--f: var(--pruefung)">Prüfung</span>
+        <span style="--f: var(--abschluss)">Abschluss</span>
+        <span style="--f: var(--halt)">◆ Haltepunkt</span>
+      </div>
+      <div id="svgplatz"></div>
+    </section>
+    <section id="details"><div id="leer">Links einen Lauf wählen oder einen neuen starten.</div></section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

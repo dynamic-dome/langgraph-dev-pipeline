@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="rk-d" viewBox="0 0 1520 680" width="1520" height="680" role="img" aria-labelledby="d-titel d-text">
+<title id="d-titel">Lab 2 als Regelkreis: die Fix-Schleife im LangGraph-Graphen</title>
+<desc id="d-text">Lab 2 führt den inneren Regelkreis automatisch als LangGraph-Graph aus. Ich gebe Spec und Plan frei; ein eigener Agent schreibt daraus Akzeptanztests, die der Implementierer nie sieht. Ein Testlauf ohne Sprachmodell und vier parallele Prüfer messen den Stand. Der Befund-Filter löst nur bei roten Tests oder Befunden ab major mit Zitat eine Fix-Runde aus, in der Voreinstellung höchstens zwei. Ist die Grenze erreicht oder kommt derselbe Befund zweimal, entscheide ich. Ist nichts offen, folgen Gesamtreview, meine Abschluss-Freigabe und ein lokaler Merge; dieser Teil ist seit 13. November 2026 in Bau. Lab 2 arbeitet an einem Übungsrepo.</desc>
+<style>
+#rk-d .txt{font-family:Inter,system-ui,sans-serif;font-size:16px;fill:hsl(var(--foreground,40 25% 92%))}
+#rk-d .m15{font-size:15px}
+#rk-d .klein{font-size:13px;fill:hsl(var(--muted-foreground,40 8% 62%))}
+#rk-d .typ{font-size:12.5px;fill:hsl(var(--muted-foreground,40 8% 62%))}
+#rk-d .code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px;fill:hsl(var(--gold-soft,42 50% 70%))}
+#rk-d .kopf{font-size:17px;font-weight:600}
+#rk-d .mitte{text-anchor:middle}
+#rk-d .box{fill:hsl(var(--card,222 20% 7%));stroke:hsl(var(--muted-foreground,40 8% 62%));stroke-width:1.5}
+#rk-d .ich{fill:hsl(42 65% 58% / 0.12);stroke:hsl(var(--gold,42 65% 58%));stroke-width:1.8}
+#rk-d .mess{fill:hsl(188 95% 58% / 0.07);stroke:hsl(var(--neon-cyan,188 95% 58%));stroke-width:1.5}
+#rk-d .bau{stroke-dasharray:7 5}
+#rk-d .rahmen{fill:none;stroke:hsl(40 8% 62% / 0.45);stroke-width:1.2;stroke-dasharray:3 4}
+#rk-d .ln{fill:none;stroke:hsl(var(--foreground,40 25% 92%));stroke-width:1.6}
+#rk-d .lm{fill:none;stroke:hsl(var(--neon-cyan,188 95% 58%));stroke-width:1.6}
+#rk-d .vgl{fill:hsl(var(--card,222 20% 7%));stroke:hsl(var(--foreground,40 25% 92%));stroke-width:1.6}
+#rk-d .pfk{fill:hsl(var(--foreground,40 25% 92%))}
+#rk-d .pfm{fill:hsl(var(--neon-cyan,188 95% 58%))}
+</style>
+<defs>
+<marker id="d-pf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="pfk"/></marker>
+<marker id="d-pm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="pfm"/></marker>
+</defs>
+
+<!-- Rahmen der automatischen Fix-Schleife -->
+<rect x="622" y="226" width="852" height="370" rx="10" class="rahmen"/>
+<text x="640" y="584" class="txt kopf">Fix-Schleife, automatisch <tspan class="klein" font-weight="400">· Takt: je Runde, Minuten</tspan></text>
+
+<!-- Sollwert-Setzung durch mich -->
+<text x="20" y="295" class="txt">Aufgabe</text>
+<line x1="20" y1="305" x2="109" y2="305" class="ln" marker-end="url(#d-pf)"/>
+<rect x="110" y="240" width="230" height="130" rx="6" class="box"/>
+<text x="124" y="260" class="txt typ">Sollwert</text>
+<text x="124" y="282" class="txt">Spec und Akzeptanztests</text>
+<text x="124" y="301" class="txt">von eigenem Agenten;</text>
+<text x="124" y="320" class="txt">der Implementierer</text>
+<text x="124" y="339" class="txt">sieht sie nie</text>
+<text x="124" y="360" class="txt code">akzeptanz_schreiben</text>
+<line x1="340" y1="305" x2="379" y2="305" class="ln" marker-end="url(#d-pf)"/>
+<rect x="380" y="250" width="210" height="110" rx="6" class="ich"/>
+<text x="394" y="270" class="txt typ">Ich gebe den Sollwert frei</text>
+<text x="394" y="292" class="txt">Spec und Plan</text>
+<text x="394" y="311" class="txt">freigeben</text>
+<text x="394" y="334" class="txt code">spec_freigabe</text>
+<text x="394" y="350" class="txt code">plan_freigabe</text>
+<line x1="590" y1="305" x2="636" y2="305" class="ln" marker-end="url(#d-pf)"/>
+
+<!-- Vergleich und Regler -->
+<circle cx="650" cy="305" r="13" class="vgl"/>
+<path d="M640.8 295.8 L659.2 314.2 M659.2 295.8 L640.8 314.2" class="ln"/>
+<text x="628" y="289" class="txt klein">+</text>
+<text x="658" y="337" class="txt klein">−</text>
+<line x1="663" y1="305" x2="699" y2="305" class="ln" marker-end="url(#d-pf)"/>
+<rect x="700" y="250" width="250" height="110" rx="6" class="box"/>
+<text x="714" y="270" class="txt typ">Regler: Befund-Filter</text>
+<text x="714" y="292" class="txt">rote Tests oder Befund</text>
+<text x="714" y="311" class="txt">ab „major“ mit Zitat</text>
+<text x="714" y="330" class="txt">lösen eine Runde aus</text>
+<text x="714" y="351" class="txt code">befunde_sammeln</text>
+<line x1="950" y1="305" x2="989" y2="305" class="ln" marker-end="url(#d-pf)"/>
+<text x="969" y="296" class="txt klein mitte">offen</text>
+
+<!-- Stellglied und Strecke -->
+<rect x="990" y="260" width="180" height="91" rx="6" class="box"/>
+<text x="1004" y="280" class="txt typ">Stellglied</text>
+<text x="1004" y="302" class="txt">Fix-Runde, in der</text>
+<text x="1004" y="321" class="txt">Voreinstellung bis 2</text>
+<text x="1004" y="341" class="txt code">fix_runde</text>
+<line x1="1170" y1="305" x2="1209" y2="305" class="ln" marker-end="url(#d-pf)"/>
+<rect x="1210" y="250" width="200" height="110" rx="6" class="box"/>
+<text x="1224" y="270" class="txt typ">Regelstrecke</text>
+<text x="1224" y="292" class="txt">Implementierer-Agent</text>
+<text x="1224" y="311" class="txt">im eigenen</text>
+<text x="1224" y="330" class="txt">Git-Worktree</text>
+<text x="1224" y="351" class="txt code">implementieren</text>
+
+<!-- Rückführung -->
+<polyline points="1410,305 1450,305 1450,510 1251,510" class="lm" marker-end="url(#d-pm)"/>
+<rect x="880" y="445" width="370" height="110" rx="6" class="mess"/>
+<text x="894" y="465" class="txt typ">Messglied</text>
+<text x="894" y="487" class="txt m15">Testlauf ohne Sprachmodell, dazu vier</text>
+<text x="894" y="506" class="txt m15">Prüfer parallel: Funktion, Security,</text>
+<text x="894" y="525" class="txt m15">Clean Code, Codex</text>
+<text x="894" y="546" class="txt code">tests_ausfuehren · pruefen_*</text>
+<polyline points="880,510 650,510 650,319" class="lm" marker-end="url(#d-pm)"/>
+
+<!-- Eskalation an mich -->
+<polyline points="840,250 840,157 989,157" class="ln" marker-end="url(#d-pf)"/>
+<text x="852" y="134" class="txt klein">Grenze erreicht oder</text>
+<text x="852" y="149" class="txt klein">Befund kehrt wieder</text>
+<rect x="990" y="120" width="220" height="80" rx="6" class="ich"/>
+<text x="1004" y="140" class="txt typ">Eskalation</text>
+<text x="1004" y="162" class="txt">Ich entscheide: weiter,</text>
+<text x="1004" y="181" class="txt">annehmen, abbrechen</text>
+<text x="1200" y="196" class="txt code" text-anchor="end">eskalation</text>
+<line x1="1080" y1="200" x2="1080" y2="259" class="ln" marker-end="url(#d-pf)"/>
+<text x="1090" y="236" class="txt klein">eine Runde mehr</text>
+
+<!-- Abschluss (in Bau) -->
+<polyline points="740,250 740,70 999,70" class="ln bau" marker-end="url(#d-pf)"/>
+<text x="752" y="62" class="txt klein">nichts mehr offen</text>
+<rect x="1000" y="36" width="190" height="68" rx="6" class="box bau"/>
+<text x="1014" y="56" class="txt typ">Gesamtreview</text>
+<text x="1014" y="77" class="txt">durch Codex</text>
+<text x="1014" y="96" class="txt code">gesamtreview</text>
+<line x1="1190" y1="70" x2="1219" y2="70" class="ln bau" marker-end="url(#d-pf)"/>
+<rect x="1220" y="36" width="200" height="68" rx="6" class="ich bau"/>
+<text x="1234" y="56" class="txt typ">Abschluss-Freigabe</text>
+<text x="1234" y="77" class="txt">ich gebe frei</text>
+<text x="1234" y="96" class="txt code">abschluss_freigabe</text>
+<line x1="1420" y1="70" x2="1449" y2="70" class="ln bau" marker-end="url(#d-pf)"/>
+<text x="1456" y="66" class="txt">lokaler</text>
+<text x="1456" y="84" class="txt">Merge</text>
+<text x="1000" y="24" class="txt klein">in Bau seit 13.11.2026</text>
+
+<!-- Fußzeile und Legende -->
+<text x="20" y="626" class="txt klein">Knotennamen aus dem Code von Lab 2 (LangGraph). Lab 2 arbeitet an einem Übungsrepo, nicht an echten Aufträgen; die Zahl der Fix-Runden ist einstellbar (0 bis 5).</text>
+<rect x="20" y="648" width="28" height="16" rx="3" class="ich"/>
+<text x="56" y="661" class="txt klein">Hier entscheide ich</text>
+<rect x="220" y="648" width="28" height="16" rx="3" class="mess"/>
+<text x="256" y="661" class="txt klein">Messung und Rückführung</text>
+<rect x="460" y="648" width="28" height="16" rx="3" class="box bau"/>
+<text x="496" y="661" class="txt klein">in Bau</text>
+<circle cx="604" cy="656" r="9" class="vgl"/>
+<path d="M597.6 649.6 L610.4 662.4 M610.4 649.6 L597.6 662.4" class="ln"/>
+<text x="622" y="661" class="txt klein">Vergleich: Sollwert minus Messung</text>
+</svg>

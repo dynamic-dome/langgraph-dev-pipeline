@@ -1,0 +1,3 @@
+# Wie die Entwicklungs-Pipeline dieses Repo testet. Die Demo schreibt hier den Python des laufenden Prozesses hinein.
+python = "python"
+testbefehl = ["-m", "pytest", "-q"]

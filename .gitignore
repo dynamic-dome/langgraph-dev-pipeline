@@ -1,0 +1,16 @@
+/.venv/
+/data/
+/berichte/
+/arbeit/
+/portwart/
+/privat/
+__pycache__/
+*.pyc
+.pytest_cache/
+/.superpowers/
+/lokal.toml
+*.db
+*.sqlite
+.agent-memory/
+.playwright-mcp/
+*.log

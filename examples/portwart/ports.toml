@@ -1,0 +1,27 @@
+# Beispielliste lokaler Ports (portwart-Format). Neue Dienste zuerst hier eintragen.
+
+[[port]]
+port = 8000
+projekt = "notizen"
+zweck = "Notizen-Server (lokal)"
+
+[[port]]
+port = 8080
+projekt = "dashboard"
+zweck = "Dashboard (Entwicklung)"
+
+[[port]]
+port = 8081
+projekt = "dashboard"
+zweck = "Dashboard (API)"
+
+# Absichtliche Kollision: zwei Dienste auf 8080 (python -m portwart pruefen meldet sie)
+[[port]]
+port = 8080
+projekt = "bildarchiv"
+zweck = "Bildarchiv (Vorschau)"
+
+[[port]]
+port = 8790
+projekt = "langgraph-lab-2"
+zweck = "Leitstand (python -m entwicklung leitstand)"

@@ -1,0 +1,9 @@
+[project]
+name = "portwart"
+version = "0.1.0"
+description = "Zentrale Liste lokaler Ports mit Prüfer (doppelte Ports, lauschende Ports, freie Ports)"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

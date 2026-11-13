@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdict", "findings", "not_checkable"],
+  "properties": {
+    "verdict": {"type": "string", "enum": ["PASS", "FAIL"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "kind", "path", "line", "claim", "quote", "check", "status"],
+        "properties": {
+          "id": {"type": "string"},
+          "severity": {"type": "string", "enum": ["blocker", "major", "minor"]},
+          "kind": {"type": "string", "enum": ["bug", "test-gap", "scope", "security", "style"]},
+          "path": {"type": "string"},
+          "line": {"type": "integer"},
+          "claim": {"type": "string"},
+          "quote": {"type": "string"},
+          "check": {"type": "string"},
+          "status": {"type": "string", "enum": ["executed", "read-only"]}
+        }
+      }
+    },
+    "not_checkable": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["what", "why", "need"],
+        "properties": {
+          "what": {"type": "string"},
+          "why": {"type": "string"},
+          "need": {"type": "string"}
+        }
+      }
+    }
+  }
+}

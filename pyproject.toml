@@ -1,0 +1,17 @@
+[project]
+name = "entwicklung"
+version = "0.1.0"
+description = "Lab 2: Softwareentwicklungs-Ablauf als LangGraph (Implementierer, Prüfungen, Fix-Schleife)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "langgraph==1.2.10",
+    "langgraph-checkpoint-sqlite==3.1.2",
+    "fastapi==0.152.0",
+    "uvicorn==0.54.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
